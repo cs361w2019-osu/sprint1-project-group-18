@@ -1,0 +1,25 @@
+<#import "../layout/defaultLayout.ftl.html" as layout> 
+<@layout.myLayout "Home page">    
+
+
+<h1>The Battleship game</h1>
+
+<table id="opponent" class="battleGrid">
+</table>
+
+<table id="player" class="battleGrid">
+</table>
+
+<ul>
+    <li><button id="place_minesweeper">Place Minesweeper</button></li>
+    <li><button id="place_destroyer">Place Destroyer</button></li>
+    <li><button id="place_battleship">Place Battleship</button></li>
+    <li><input type="checkbox" id="is_vertical">Vertical</input></li>
+</ul>
+
+<script type="text/javascript" src="/assets/game.js"></script>
+<script>
+    initGame();
+</script>
+
+</@layout.myLayout>

@@ -1,0 +1,41 @@
+/* Add additional stylesheets below
+-------------------------------------------------- */
+
+.battleGrid {
+    border: 1px solid black;
+    border-spacing: 0px;
+}
+
+.battleGrid tr {
+    border: 1px solid black;
+    height: 30px;
+}
+
+.battleGrid td {
+    border: 1px solid black;
+    width: 30px;
+}
+
+td:hover {
+    background-color: gray;
+}
+
+.placed {
+    background-color: gray;
+}
+
+.occupied {
+    background-color: black;
+}
+
+.hit {
+    background-color: orange;
+}
+
+.sink {
+    background-color: red;
+}
+
+.miss {
+    background-color: blue;
+}

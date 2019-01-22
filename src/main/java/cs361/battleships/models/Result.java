@@ -7,8 +7,6 @@ public class Result {
 	private Square square;
 
 	public Result(){
-		ship = new Ship();
-		square = new Square();
 	};
 
 	public Result(AtackStatus stat, Ship shp, Square sq) {

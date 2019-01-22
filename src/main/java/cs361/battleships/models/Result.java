@@ -2,30 +2,46 @@ package cs361.battleships.models;
 
 public class Result {
 
+	private AtackStatus result;
+	private Ship ship;
+	private Square square;
+
+	public Result(){
+		ship = new Ship();
+		square = new Square();
+	};
+
+	public Result(AtackStatus stat, Ship shp, Square sq) {
+		result = stat;
+		ship = shp;
+		square = sq;
+	}
+
+
 	public AtackStatus getResult() {
-		//TODO implement
-		return null;
+		return result;
 	}
 
 	public void setResult(AtackStatus result) {
-		//TODO implement
+		this.result = result;
 	}
 
 	public Ship getShip() {
-		//TODO implement
-		return null;
+
+		return this.ship;
 	}
 
 	public void setShip(Ship ship) {
-		//TODO implement
+		this.ship = ship;
 	}
 
 	public Square getLocation() {
-		//TODO implement
-		return null;
+
+		return this.square;
 	}
 
 	public void setLocation(Square square) {
-		//TODO implement
+		this.square = square;
 	}
+}
 }

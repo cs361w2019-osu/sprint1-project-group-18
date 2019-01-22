@@ -10,27 +10,37 @@ public class Board {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public Board() {
-		this.placed_ships = new List<Ship>();
-		this.results = new List<Result>();
+		this.placed_ships = new ArrayList<Ship>();
+		this.results = new ArrayList<Result>();
 	}
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
-
+    for(int i = 0; i < ship.getOccupiedSquares().size(); i++){
+      if(isVertical){
+        ship.getOccupiedSquares()[i].setRow(x + i);
+        ship.getOccupiedSquares()[i].setColumn(y);
+      }
+      else{
+        ship.getOccupiedSquares()[i].setRow(x);
+        ship.getOccupiedSquares()[i].setColumn(y + i);
+      }
+    }
+    
 		for(int i = 0; i < ship.getOccupiedSquares().size(); i++){
 			if(ship.getOccupiedSquares()[i].getRow() < 1 || ship.getOccupiedSquares()[i].getRow() > 10){
-				return false;
+				return false;        //Returns false if Row out of bounds
 			}
 			if(ship.getOccupiedSquares()[i].getColumn() < 'a' || ship.getOccupiedSquares()[i].getColumn() > 'j'){
-				return false;
+				return false;        //Returns false if Column out of bounds
 			}
 			if(is_ship_at(ship.getOccupiedSquares()[i].getRow(), ship.getOccupiedSquares()[i].getColumn())){
-				return false
+				return false         //Returns false if conflicting with another ship
 			}
 		}
-
+   
 		placed_ships.append(ship);
 		return true;
 	}

@@ -6,17 +6,9 @@ public class Result {
 	private Ship ship;
 	private Square square;
 
-	public Result(){
-		ship = new Ship();
-		square = new Square();
-	};
-
-	public Result(AtackStatus stat, Ship shp, Square sq) {
+	public Result(AtackStatus stat) {
 		result = stat;
-		ship = shp;
-		square = sq;
 	}
-
 
 	public AtackStatus getResult() {
 		return result;
@@ -43,5 +35,4 @@ public class Result {
 	public void setLocation(Square square) {
 		this.square = square;
 	}
-}
 }

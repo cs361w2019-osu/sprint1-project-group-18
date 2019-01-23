@@ -50,7 +50,7 @@ public class Game {
     }
 
     private char randCol() {
-        string chars = "abcdefghij";
+        String chars = "abcdefghij";
         Random rnd = new Random();
         char c = chars.charAt(rnd.nextInt(( chars).length()));
         return c;

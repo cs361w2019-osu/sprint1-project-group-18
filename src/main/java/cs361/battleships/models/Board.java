@@ -50,7 +50,10 @@ public class Board {
 	 */
 	public Result attack(int x, char y) {
 		if(is_attack_at(x, y) || (x < 0 || x > 10) || (y < 'a' || y > 'j')){
-			return INVALID;
+			Result r = Result(AtackStatus.INVALID);
+      Square loc = Square(x, y);
+      r.setLocation(loc);
+      return r;
 		}
 		else if(is_ship_at(x, y)){
 			Ship ship = ship_at(x, y);
@@ -63,18 +66,33 @@ public class Board {
 					}
 				}
 				if(!up){
-					return SURRENDER;
+					Result r = Result(AtackStatus.SURRENDER);
+          r.setShip = ship;
+          Square loc = Square(x, y);
+          r.setLocation(loc);
+          return r;
 				}
 				else{
-					return SUNK;
+          Result r = Result(AtackStatus.SUNK);
+          r.setShip = ship;
+          Square loc = Square(x, y);
+          r.setLocation(loc);
+          return r;
 				}
 			}
 			else{
-				return Hit;
+        Result r = Result(AtackStatus.HIT);
+        r.setShip = ship;
+        Square loc = Square(x, y);
+        r.setLocation(loc);
+        return r;
 			}
 		}
 		else{
-			return MISS;
+			Result r = Result(AtackStatus.MISS);
+      Square loc = Square(x, y);
+      r.setLocation(loc);
+      return r;
 		}
 	}
 

@@ -20,28 +20,29 @@ public class Board {
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
     for(int i = 0; i < ship.getOccupiedSquares().size(); i++){
       if(isVertical){
-        ship.getOccupiedSquares()[i].setRow(x + i);
-        ship.getOccupiedSquares()[i].setColumn(y);
+        ship.getOccupiedSquares().get(i).setRow(x + i);
+        ship.getOccupiedSquares().get(i).setColumn(y);
       }
       else{
-        ship.getOccupiedSquares()[i].setRow(x);
-        ship.getOccupiedSquares()[i].setColumn(y + i);
+        ship.getOccupiedSquares().get(i).setRow(x);
+        char temp = (char) (y+i);
+        ship.getOccupiedSquares().get(i).setColumn(temp);
       }
     }
     
 		for(int i = 0; i < ship.getOccupiedSquares().size(); i++){
-			if(ship.getOccupiedSquares()[i].getRow() < 1 || ship.getOccupiedSquares()[i].getRow() > 10){
+			if(ship.getOccupiedSquares().get(i).getRow() < 1 || ship.getOccupiedSquares().get(i).getRow() > 10){
 				return false;        //Returns false if Row out of bounds
 			}
-			if(ship.getOccupiedSquares()[i].getColumn() < 'a' || ship.getOccupiedSquares()[i].getColumn() > 'j'){
+			if(ship.getOccupiedSquares().get(i).getColumn() < 'a' || ship.getOccupiedSquares().get(i).getColumn() > 'j'){
 				return false;        //Returns false if Column out of bounds
 			}
-			if(is_ship_at(ship.getOccupiedSquares()[i].getRow(), ship.getOccupiedSquares()[i].getColumn())){
-				return false         //Returns false if conflicting with another ship
+			if(is_ship_at(ship.getOccupiedSquares().get(i).getRow(), ship.getOccupiedSquares().get(i).getColumn())){
+				return false;         //Returns false if conflicting with another ship
 			}
 		}
    
-		placed_ships.append(ship);
+		placed_ships.add(ship);
 		return true;
 	}
 
@@ -49,55 +50,51 @@ public class Board {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public Result attack(int x, char y) {
-		if(is_attack_at(x, y) || (x < 0 || x > 10) || (y < 'a' || y > 'j')){
-			Result r = Result(AtackStatus.INVALID);
-      Square loc = Square(x, y);
-      r.setLocation(loc);
-      return r;
-		}
-		else if(is_ship_at(x, y)){
+		if (is_attack_at(x, y) || (x < 0 || x > 10) || (y < 'a' || y > 'j')) {
+			Result r = new Result(AtackStatus.INVALID);
+			Square loc = new Square(x, y);
+			r.setLocation(loc);
+			return r;
+		} else if (is_ship_at(x, y)) {
 			Ship ship = ship_at(x, y);
 
-			if(sunk(ship)){
-				up = false;
-				for(int i = 0; i < placed_ships.size(); i++){
-					if(!sunk(placed_ships[i]){
+			if (sunk(ship)) {
+				boolean up = false;
+				for (int i = 0; i < placed_ships.size(); i++) {
+					if (!sunk(placed_ships.get(i))) {
 						up = true;
 					}
 				}
-				if(!up){
-					Result r = Result(AtackStatus.SURRENDER);
-          r.setShip = ship;
-          Square loc = Square(x, y);
-          r.setLocation(loc);
-          return r;
+				if (!up) {
+					Result r = new Result(AtackStatus.SURRENDER);
+					r.setShip(ship);
+					Square loc = new Square(x, y);
+					r.setLocation(loc);
+					return r;
+				} else {
+					Result r = new Result(AtackStatus.SUNK);
+					r.setShip(ship);
+					Square loc = new Square(x, y);
+					r.setLocation(loc);
+					return r;
 				}
-				else{
-          Result r = Result(AtackStatus.SUNK);
-          r.setShip = ship;
-          Square loc = Square(x, y);
-          r.setLocation(loc);
-          return r;
-				}
+			} else {
+				Result r = new Result(AtackStatus.HIT);
+				r.setShip(ship);
+				Square loc = new Square(x, y);
+				r.setLocation(loc);
+				return r;
 			}
-			else{
-        Result r = Result(AtackStatus.HIT);
-        r.setShip = ship;
-        Square loc = Square(x, y);
-        r.setLocation(loc);
-        return r;
-			}
-		}
-		else{
-			Result r = Result(AtackStatus.MISS);
-      Square loc = Square(x, y);
-      r.setLocation(loc);
-      return r;
+		} else {
+			Result r = new Result(AtackStatus.MISS);
+			Square loc = new Square(x, y);
+			r.setLocation(loc);
+			return r;
 		}
 	}
 
 	public List<Ship> getShips() {
-		return ships;
+		return placed_ships;
 	}
 
 	public void setShips(List<Ship> ships) {
@@ -114,9 +111,9 @@ public class Board {
 
 	public boolean is_ship_at(int x, char y) {
 		for(int i = 0; i < placed_ships.size(); i++){
-			squares = ships[i].getOccupiedSquares();
+			List<Square> squares = placed_ships.get(i).getOccupiedSquares();
 			for(int j = 0; j < squares.size(); j++){
-				if(squares[j].getRow() == x && squares[j].getColumn() == y){
+				if(squares.get(j).getRow() == x && squares.get(j).getColumn() == y){
 					return true;
 				}
 			}
@@ -125,10 +122,10 @@ public class Board {
 	}
 	public Ship ship_at(int x, char y) {
 		for(int i = 0; i < placed_ships.size(); i++){
-			squares = ships[i].getOccupiedSquares();
+			List<Square> squares = placed_ships.get(i).getOccupiedSquares();
 			for(int j = 0; j < squares.size(); j++){
-				if(squares[j].getRow() == x && squares[j].getColumn() == y){
-					return ships[i];
+				if(squares.get(j).getRow() == x && squares.get(j).getColumn() == y){
+					return placed_ships.get(i);
 				}
 			}
 		}
@@ -136,7 +133,7 @@ public class Board {
 	}
 	public boolean is_attack_at(int x, char y) {
 		for(int i = 0; i < results.size(); i++){
-			if(results[i].getLocation().getRow() == x && results[i].getLocation().getColumn() == y){
+			if(results.get(i).getLocation().getRow() == x && results.get(i).getLocation().getColumn() == y){
 				return true;
 			}
 		}
@@ -144,15 +141,15 @@ public class Board {
 	}
 	public Result attack_at(int x, char y) {
 		for(int i = 0; i < results.size(); i++){
-			if(results[i].getLocation().getRow() == x && results[i].getLocation().getColumn() == y){
-				return results[i];
+			if(results.get(i).getLocation().getRow() == x && results.get(i).getLocation().getColumn() == y){
+				return results.get(i);
 			}
 		}
 		return null;
 	}
 	public boolean sunk(Ship ship){
-		for(int i = 0; i < ship.getOccupiedSquares(); i++){
-			if(!is_attack_at(ship.getOccupiedSquares()[i].getRow(), ship.getOccupiedSquares()[i].getColumn())){
+		for(int i = 0; i < ship.getOccupiedSquares().size(); i++){
+			if(!is_attack_at(ship.getOccupiedSquares().get(i).getRow(), ship.getOccupiedSquares().get(i).getColumn())){
 				return false;
 			}
 		}

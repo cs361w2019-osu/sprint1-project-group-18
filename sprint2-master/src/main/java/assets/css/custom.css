@@ -2,40 +2,41 @@
 -------------------------------------------------- */
 
 .battleGrid {
-    border: 1px solid black;
-    border-spacing: 0px;
+    border-spacing: 2px;
+    margin: 20px;
 }
 
 .battleGrid tr {
-    border: 1px solid black;
     height: 30px;
 }
 
 .battleGrid td {
-    border: 1px solid black;
+    border: 2px solid black;
     width: 30px;
+    background-color: blue;
+    border-radius: 12px;
 }
 
 td:hover {
     background-color: gray;
 }
 
-.placed {
+td.placed {
     background-color: gray;
 }
 
-.occupied {
-    background-color: black;
+td.occupied {
+    background-color: green;
 }
 
-.hit {
-    background-color: orange;
-}
-
-.sink {
+td.hit {
     background-color: red;
 }
 
-.miss {
-    background-color: blue;
+td.sink {
+    background-color: black;
+}
+
+td.miss {
+    background-color: white;
 }

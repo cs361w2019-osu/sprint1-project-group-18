@@ -87,7 +87,13 @@ function sendXhr(method, url, data, handler) {
     var req = new XMLHttpRequest();
     req.addEventListener("load", function(event) {
         if (req.status != 200) {
-            alert("Cannot complete the action");
+            if(req.responseURL == "http://localhost:8080/place"){
+                alert("Invalid ship placement");
+            }
+            else{
+                alert("Please select a valid cell")
+            }
+
             return;
         }
         handler(JSON.parse(req.responseText));

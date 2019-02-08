@@ -40,3 +40,29 @@ td.sink {
 td.miss {
     background-color: white;
 }
+
+h1{
+    text-align: center;
+    font-family: "Arial Black";
+    font-size: 50px;
+}
+
+.mainContent{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttons{
+    border-color: black;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-style: solid;
+    border-radius: 10%;
+}
+.leftScreen{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

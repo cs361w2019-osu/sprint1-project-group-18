@@ -41,6 +41,30 @@ td.miss {
     background-color: white;
 }
 
+.numberColumn {
+    margin: -10px;
+}
+.numberColumn tr {
+    height: 30px;
+}
+.numberColumn th  {
+    size:12px;
+}
+
+.letterRow {
+    margin: -15px;
+    width: 390px;
+    padding-left: 32px;
+}
+
+.letterRow tr {
+    size: 12px;
+}
+
+.letterRow th {
+    width: 12px;
+}
+
 h1{
     text-align: center;
     font-family: "Arial Black";
@@ -64,6 +88,13 @@ h1{
 .leftScreen{
     display: flex;
     flex-direction: column;
+    justify-content: center;
+}
+
+.rightScreen{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
     justify-content: center;
 }
 

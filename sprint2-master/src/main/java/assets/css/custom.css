@@ -59,10 +59,48 @@ h1{
     margin-left: 20px;
     margin-right: 20px;
     border-style: solid;
-    border-radius: 10%;
+    border-radius: 25px;
 }
 .leftScreen{
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.buttons button{
+    font-family: "Arial Black",sans-serif;
+    font-size: 17px;
+    color: black;
+    padding: 7px;
+    background-color: #fff;
+    border: 1px solid #ababab;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.buttons button:hover {
+    background-color: #ff6961;
+    border-color: #333;
+    color: #fff;
+}
+
+ul{
+    margin-top: 10px;
+    margin-bottom: 10px
+}
+
+ul li{
+    padding: 2.5px;
+}
+
+label{
+    font-family: "Arial Black",sans-serif;
+    font-size: 17px;
+    color: black;
+    cursor: pointer;
+}
+
+input{
+    cursor: pointer;
+    margin-right: 0;
 }

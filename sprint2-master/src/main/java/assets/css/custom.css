@@ -53,7 +53,7 @@ td.miss {
 
 .letterRow {
     margin: -15px;
-    width: 390px;
+    width: 410px;
     padding-left: 32px;
 }
 
@@ -94,7 +94,7 @@ h1{
 .rightScreen{
     display: flex;
     flex-direction: column;
-    align-content: center;
+
     justify-content: center;
 }
 

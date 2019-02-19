@@ -149,3 +149,16 @@ function initGame() {
         game = data;
     });
 };
+
+function sonarCount(){
+        var foo = document.getElementById('sonar_Count').innerHTML;
+       if(foo==0)
+        {
+        alert("You have run out of Sonar Pulse");
+        }
+        else{
+        foo--;
+        document.getElementById('sonar_Count').innerHTML = foo;
+        }
+};
+

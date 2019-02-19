@@ -151,14 +151,15 @@ function initGame() {
 };
 
 function sonarCount(){
-        var foo = document.getElementById('sonar_Count').innerHTML;
-       if(foo==0)
+    var count = document.getElementById('sonar_Count').innerHTML;
+    if(count==0)
         {
         alert("You have run out of Sonar Pulse");
         }
-        else{
-        foo--;
-        document.getElementById('sonar_Count').innerHTML = foo;
+    else
+        {
+        count--;
+        document.getElementById('sonar_Count').innerHTML = count;
         }
 };
 

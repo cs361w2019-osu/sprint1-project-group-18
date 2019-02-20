@@ -152,14 +152,19 @@ function initGame() {
 
 function sonarCount(){
     var count = document.getElementById('sonar_Count').innerHTML;
-    if(count==0)
-        {
-        alert("You have run out of Sonar Pulse");
-        }
-    else
-        {
-        count--;
-        document.getElementById('sonar_Count').innerHTML = count;
-        }
+    if(placedShips == 3){
+        if(count==0)
+            {
+            alert("You have run out of Sonar Pulse");
+            }
+        else
+            {
+            count--;
+            document.getElementById('sonar_Count').innerHTML = count;
+            }
+    }
+    else{
+        alert("Place your ships first to start the game!");
+    }
 };
 

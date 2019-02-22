@@ -22,7 +22,19 @@ public enum AtackStatus {
 	 * surrender).
 	 */
 	SURRENDER,
-	
+
+	/**
+	 * The results if an attack results in the defeat of the opponent (a
+	 * surrender).
+	 */
+	SCANNED,
+
+	/**
+	 * The results if an attack results in the defeat of the opponent (a
+	 * surrender).
+	 */
+	DETECTED,
+
 	/**
 	 * The result if the coordinates given are invalid.
 	 */

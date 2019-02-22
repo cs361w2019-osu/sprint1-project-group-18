@@ -12,7 +12,7 @@ public class Ship {
 	@JsonProperty private String kind;
 	@JsonProperty private List<Square> occupiedSquares;
 	@JsonProperty private int size;
-	@JsonProperty private Square captainQuarters;
+	@JsonProperty private int CQindex;
 	@JsonProperty private boolean isArmored;
 
 	public Ship() {
@@ -25,14 +25,17 @@ public class Ship {
 		switch(kind) {
 			case "MINESWEEPER":
 				size = 2;
+				CQindex = 0;
 				isArmored = false;
 				break;
 			case "DESTROYER":
 				size = 3;
+				CQindex = 1;
 				isArmored = true;
 				break;
 			case "BATTLESHIP":
 				size = 4;
+				CQindex = 2;
 				isArmored = true;
 				break;
 		}
@@ -42,16 +45,21 @@ public class Ship {
 		return occupiedSquares;
 	}
 
+	public int getSize(){
+		return size;
+	}
+
 	public void place(char col, int row, boolean isVertical) {
 		for (int i=0; i<size; i++) {
 			if (isVertical) {
-				occupiedSquares.add(new Square(row+i, col));
+				occupiedSquares.add(new Square(row + i, col));
 			} else {
 				occupiedSquares.add(new Square(row, (char) (col + i)));
 			}
+			if (i == CQindex) {
+				occupiedSquares.get(i).setCaptainsQuarters(true);
+			}
 		}
-		captainQuarters = getOccupiedSquares().get(new Random().nextInt(size));
-		captainQuarters.setCaptainsQuarters(true);
 	}
 
 	public boolean overlaps(Ship other) {
@@ -69,39 +77,48 @@ public class Ship {
 		return kind;
 	}
 
-	public Result attack(int x, char y) {
+	public List<Result> attack(int x, char y) {
+		var resultList = new ArrayList<Result>();
 		var attackedLocation = new Square(x, y);
 		var square = getOccupiedSquares().stream().filter(s -> s.equals(attackedLocation)).findFirst();
 		if (!square.isPresent()) {
-			return new Result(attackedLocation);
+			resultList.add(new Result(attackedLocation));
+			return resultList;
 		}
 		var attackedSquare = square.get();
 		var result = new Result(attackedLocation);
-		if (attackedSquare.getCaptainsQuarters())
+		if (getOccupiedSquares().get(CQindex).equals(attackedSquare))
 		{
-			if (!this.isArmored && !this.isSunk())
-			{
-				getOccupiedSquares().forEach( elem -> elem.hit());
+			if (!this.isArmored && !this.isSunk()) {
+				for(var i = 0; i < size; i++) {
+					if(i != CQindex) {
+						resultList.add(attack(getOccupiedSquares().get(i).getRow(), getOccupiedSquares().get(i).getColumn()).get(0));
+					}
+				}
 				result.setShip(this);
 				result.setResult(AtackStatus.SUNK);
-				return result;
+				resultList.add(result);
+				return resultList;
 			}
-			else if (this.isSunk())
-			{
-				result.setResult(AtackStatus.INVALID);
-				return result;
-			}
-			else
+			else if (this.isArmored && !this.isSunk())
 			{
 				this.isArmored = false;
 				result.setShip(this);
 				result.setResult(AtackStatus.HIT);
-				return result;
+				resultList.add(result);
+				return resultList;
+			}
+			else if (this.isSunk())
+			{
+				result.setResult(AtackStatus.INVALID);
+				resultList.add(result);
+				return resultList;
 			}
 		}
-		if (attackedSquare.isHit() && !attackedSquare.getCaptainsQuarters()) {
+		if (attackedSquare.isHit() && !getOccupiedSquares().get(CQindex).equals(attackedSquare)) {
 			result.setResult(AtackStatus.INVALID);
-			return result;
+			resultList.add(result);
+			return resultList;
 		}
 		attackedSquare.hit();
 		result.setShip(this);
@@ -110,7 +127,8 @@ public class Ship {
 		} else {
 			result.setResult(AtackStatus.HIT);
 		}
-		return result;
+		resultList.add(result);
+		return resultList;
 	}
 
 	@JsonIgnore

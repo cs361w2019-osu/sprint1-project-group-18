@@ -71,6 +71,27 @@ public class Board {
 		return attackResult;
 	}
 
+	//For scanning
+	public Result scan(int x, char y) {
+		Result attackResult = scan(new Square(x, y));
+		attacks.add(attackResult);
+		return attackResult;
+	}
+
+	private Result scan(Square s) {
+		var shipsAtLocation = ships.stream().filter(ship -> ship.isAtLocation(s)).collect(Collectors.toList());
+		if (shipsAtLocation.size() == 0) {
+			var attackResult = new Result(s);
+			attackResult.setResult(AtackStatus.SCANNED);
+			return attackResult;
+		}
+		else{
+			var attackResult = new Result(s);
+			attackResult.setResult(AtackStatus.DETECTED);
+			return attackResult;
+		}
+	}
+
 	List<Ship> getShips() {
 		return ships;
 	}

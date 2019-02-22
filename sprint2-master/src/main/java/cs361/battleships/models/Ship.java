@@ -95,6 +95,7 @@ public class Ship {
 						resultList.add(attack(getOccupiedSquares().get(i).getRow(), getOccupiedSquares().get(i).getColumn()).get(0));
 					}
 				}
+				attackedSquare.hit();
 				result.setShip(this);
 				result.setResult(AtackStatus.SUNK);
 				resultList.add(result);
@@ -103,6 +104,7 @@ public class Ship {
 			else if (this.isArmored && !this.isSunk())
 			{
 				this.isArmored = false;
+				attackedSquare.hit();
 				result.setShip(this);
 				result.setResult(AtackStatus.HIT);
 				resultList.add(result);

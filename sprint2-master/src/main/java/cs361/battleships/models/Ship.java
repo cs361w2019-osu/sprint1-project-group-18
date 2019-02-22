@@ -5,16 +5,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Sets;
 import com.mchange.v1.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 public class Ship {
 
 	@JsonProperty private String kind;
 	@JsonProperty private List<Square> occupiedSquares;
 	@JsonProperty private int size;
+	@JsonProperty private Square captainQuarters;
+	@JsonProperty private boolean isArmored;
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
@@ -26,12 +25,15 @@ public class Ship {
 		switch(kind) {
 			case "MINESWEEPER":
 				size = 2;
+				isArmored = false;
 				break;
 			case "DESTROYER":
 				size = 3;
+				isArmored = true;
 				break;
 			case "BATTLESHIP":
 				size = 4;
+				isArmored = true;
 				break;
 		}
 	}
@@ -48,6 +50,8 @@ public class Ship {
 				occupiedSquares.add(new Square(row, (char) (col + i)));
 			}
 		}
+		captainQuarters = getOccupiedSquares().get(new Random().nextInt(size));
+		captainQuarters.setCaptainsQuarters(true);
 	}
 
 	public boolean overlaps(Ship other) {
@@ -72,13 +76,34 @@ public class Ship {
 			return new Result(attackedLocation);
 		}
 		var attackedSquare = square.get();
-		if (attackedSquare.isHit()) {
-			var result = new Result(attackedLocation);
+		var result = new Result(attackedLocation);
+		if (attackedSquare.getCaptainsQuarters())
+		{
+			if (!this.isArmored && !this.isSunk())
+			{
+				getOccupiedSquares().forEach( elem -> elem.hit());
+				result.setShip(this);
+				result.setResult(AtackStatus.SUNK);
+				return result;
+			}
+			else if (this.isSunk())
+			{
+				result.setResult(AtackStatus.INVALID);
+				return result;
+			}
+			else
+			{
+				this.isArmored = false;
+				result.setShip(this);
+				result.setResult(AtackStatus.HIT);
+				return result;
+			}
+		}
+		if (attackedSquare.isHit() && !attackedSquare.getCaptainsQuarters()) {
 			result.setResult(AtackStatus.INVALID);
 			return result;
 		}
 		attackedSquare.hit();
-		var result = new Result(attackedLocation);
 		result.setShip(this);
 		if (isSunk()) {
 			result.setResult(AtackStatus.SUNK);

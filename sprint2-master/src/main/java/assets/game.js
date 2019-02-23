@@ -4,6 +4,7 @@ var game;
 var shipType;
 var vertical;
 var sonar = false;
+var shipSunk = 0;
 
 function makeGrid(table, isPlayer) {
     for (i=0; i<10; i++) {
@@ -24,8 +25,10 @@ function markHits(board, elementId, surrenderText) {
             className = "miss";
         else if (attack.result === "HIT")
             className = "hit";
-        else if (attack.result === "SUNK")
+        else if (attack.result === "SUNK"){
+            shipSunk++;
             className = "hit"
+            }
         else if (attack.result === "SURRENDER")
             alert(surrenderText);
         else if (attack.result === "SCANNED")
@@ -165,10 +168,17 @@ function sonarCount(){
             }
         else
             {
-            count--;
-            sonar = true;
-            document.getElementById('sonar_Count').innerHTML = count;
+            if(shipSunk>=1){
+
+                count--;
+                sonar = true;
+                document.getElementById('sonar_Count').innerHTML = count;
             }
+            else
+            {
+                alert("You must destroy a ship first!");
+            }
+        }
     }
     else{
         alert("Place your ships first to start the game!");

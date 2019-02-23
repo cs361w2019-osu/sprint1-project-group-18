@@ -151,7 +151,7 @@ public class ShipTest {
 
     @Test
     public void testAttackSameSquareTwice() {
-        Ship minesweeper = new Ship("MINESWEEPER");
+        Ship minesweeper = new Ship("BATTLESHIP");
         minesweeper.place('A', 1, true);
         List<Result> result = minesweeper.attack(1, 'A');
         for (Result r : result) {

@@ -64,7 +64,7 @@ public class Board {
 
 	private List<Result> attack(Square s) {
 		var attackList = new ArrayList<Result>();
-		if (attacks.stream().anyMatch(r -> r.getLocation().equals(s)) && !s.getCaptainsQuarters()) {
+		if (attacks.stream().anyMatch(r -> r.getLocation().equals(s) && r.getResult() == AtackStatus.MISS)) {
 			var attackResult = new Result(s);
 			attackResult.setResult(AtackStatus.INVALID);
 			attackList.add(attackResult);

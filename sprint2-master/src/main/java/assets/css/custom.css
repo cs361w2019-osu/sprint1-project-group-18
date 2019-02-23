@@ -29,21 +29,20 @@ td.occupied {
     background-color: green;
 }
 
+td.scanned {
+    background-color: gray;
+}
+td.detected {
+    background-color: black;
+}
+td.miss {
+    background-color: white;
+}
 td.hit {
     background-color: red;
 }
 
 td.sink {
-    background-color: black;
-}
-
-td.miss {
-    background-color: white;
-}
-td.scanned {
-    background-color: gray;
-}
-td.detected {
     background-color: black;
 }
 

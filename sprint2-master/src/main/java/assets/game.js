@@ -3,6 +3,7 @@ var placedShips = 0;
 var game;
 var shipType;
 var vertical;
+var sonar = false;
 
 function makeGrid(table, isPlayer) {
     for (i=0; i<10; i++) {
@@ -80,10 +81,11 @@ function cellClick() {
             }
         });
     } else {
-        sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
+        sendXhr("POST", "/attack", {game: game, x: row, y: col, sonarCheck: sonar}, function(data) {
             game = data;
             redrawGrid();
         })
+        sonar = false;
     }
 }
 
@@ -164,6 +166,7 @@ function sonarCount(){
         else
             {
             count--;
+            sonar = true;
             document.getElementById('sonar_Count').innerHTML = count;
             }
     }

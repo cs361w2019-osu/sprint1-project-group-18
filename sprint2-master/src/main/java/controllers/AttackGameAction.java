@@ -8,6 +8,7 @@ public class AttackGameAction {
     @JsonProperty private Game game;
     @JsonProperty private int x;
     @JsonProperty private char y;
+    @JsonProperty private boolean sonarCheck;
 
     public Game getGame() {
         return game;
@@ -20,4 +21,6 @@ public class AttackGameAction {
     public char getActionColumn() {
         return y;
     }
+
+    public boolean getSonar() { return sonarCheck; }
 }

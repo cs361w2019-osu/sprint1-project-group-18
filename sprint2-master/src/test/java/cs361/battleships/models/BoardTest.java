@@ -3,6 +3,8 @@ package cs361.battleships.models;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -64,7 +66,7 @@ public class BoardTest {
     public void testSurrender() {
         board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true);
         board.attack(1, 'A');
-        var result = board.attack(2, 'A');
+        Result result = board.attack(2, 'A');
         assertEquals(AtackStatus.SURRENDER, result.getResult());
     }
 

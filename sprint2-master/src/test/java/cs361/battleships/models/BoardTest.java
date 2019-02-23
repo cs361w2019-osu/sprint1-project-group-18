@@ -85,4 +85,22 @@ public class BoardTest {
         assertFalse(board.placeShip(new Ship(""), 8, 'A', false));
 
     }
+    @Test
+    public void sonarTestHit() {
+        Ship minesweeper = new Ship("MINESWEEPER");
+        board.placeShip(minesweeper, 1, 'A', true);
+        minesweeper = board.getShips().get(0);
+        Result result = board.scan(1, 'A');
+        assertEquals(AtackStatus.DETECTED, result.getResult());
+        result = board.scan(2, 'A');
+        assertEquals(AtackStatus.DETECTED, result.getResult());
+    }
+    @Test
+    public void sonarTestMiss() {
+        Ship minesweeper = new Ship("MINESWEEPER");
+        board.placeShip(minesweeper, 1, 'A', true);
+        minesweeper = board.getShips().get(0);
+        Result result = board.scan(3, 'A');
+        assertEquals(AtackStatus.SCANNED, result.getResult());
+    }
 }

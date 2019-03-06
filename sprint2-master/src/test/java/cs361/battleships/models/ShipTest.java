@@ -127,16 +127,18 @@ public class ShipTest {
 
     @Test
     public void testSink() {
-        Ship minesweeper = new Ship("MINESWEEPER");
+        Ship minesweeper = new Ship("BATTLESHIP");
         minesweeper.place('A', 1, true);
 
         minesweeper.attack(1, 'A');
-        List<Result> result = minesweeper.attack(2, 'A');
+        minesweeper.attack(2,'A');
+        minesweeper.attack(3,'A');
+        List<Result> result = minesweeper.attack(4, 'A');
 
         for (Result r : result) {
             assertEquals(AtackStatus.SUNK, r.getResult());
             assertEquals(minesweeper, r.getShip());
-            assertEquals(new Square(2, 'A'), r.getLocation());
+            assertEquals(new Square(4, 'A'), r.getLocation());
         }
     }
 
@@ -151,13 +153,13 @@ public class ShipTest {
 
     @Test
     public void testAttackSameSquareTwice() {
-        Ship minesweeper = new Ship("BATTLESHIP");
+        Ship minesweeper = new Ship("MINESWEEPER");
         minesweeper.place('A', 1, true);
-        List<Result> result = minesweeper.attack(1, 'A');
+        List<Result> result = minesweeper.attack(2, 'A');
         for (Result r : result) {
             assertEquals(AtackStatus.HIT, r.getResult());
         }
-        result = minesweeper.attack(1, 'A');
+        result = minesweeper.attack(2, 'A');
         for (Result r : result) {
             assertEquals(AtackStatus.INVALID, r.getResult());
         }

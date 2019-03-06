@@ -139,6 +139,7 @@ function place(size) {
     }
 }
 
+
 function initGame() {
     makeGrid(document.getElementById("opponent"), false);
     makeGrid(document.getElementById("player"), true);
@@ -154,6 +155,10 @@ function initGame() {
         shipType = "BATTLESHIP";
        registerCellListener(place(4));
     });
+    document.getElementById("place_sub").addEventListener("click", function(e) {
+            shipType = "SUBMARINE";
+           registerCellListener(place(5));
+        });
     sendXhr("GET", "/game", {}, function(data) {
         game = data;
     });

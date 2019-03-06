@@ -38,6 +38,11 @@ public class Ship {
 				CQindex = 2;
 				isArmored = true;
 				break;
+			case "SUBMARINE":
+				size = 5;
+				CQindex = 4;
+				isArmored = true;
+				break;
 		}
 	}
 
@@ -59,6 +64,26 @@ public class Ship {
 			if (i == CQindex) {
 				occupiedSquares.get(i).setCaptainsQuarters(true);
 			}
+		}
+	}
+
+	public void placeSub(char col, int row, boolean isVertical) {
+		for (int i = 0; i < size - 1; i++)
+		{
+			if (isVertical) {
+				occupiedSquares.add(new Square(row + i, col));
+			} else {
+				occupiedSquares.add(new Square(row, (char) (col + i)));
+			}
+			if (i == CQindex) {
+				occupiedSquares.get(i).setCaptainsQuarters(true);
+			}
+		}
+		if(isVertical) {
+			occupiedSquares.add(new Square(row + 2, (char) (col + 1)));
+		}
+		else {
+			occupiedSquares.add(new Square(row - 1, (char)(col + 2)));
 		}
 	}
 

@@ -30,7 +30,13 @@ public class Board {
 			return false;
 		}
 		final var placedShip = new Ship(ship.getKind());
-		placedShip.place(y, x, isVertical);
+		if(!ship.getKind().equals("SUBMARINE")) {
+			placedShip.place(y, x, isVertical);
+		}
+		else {
+			placedShip.placeSub(y,x,isVertical);
+		}
+
 		if (ships.stream().anyMatch(s -> s.overlaps(placedShip))) {
 			return false;
 		}

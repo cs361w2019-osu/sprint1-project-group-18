@@ -83,7 +83,7 @@ public class Ship {
 			occupiedSquares.add(new Square(row + 2, (char) (col + 1)));
 		}
 		else {
-			occupiedSquares.add(new Square(row + 1, (char)(col + 2)));
+			occupiedSquares.add(new Square(row - 1, (char)(col + 2)));
 		}
 	}
 

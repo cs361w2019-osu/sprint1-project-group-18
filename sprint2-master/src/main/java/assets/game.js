@@ -78,7 +78,7 @@ function cellClick() {
             game = data;
             redrawGrid();
             placedShips++;
-            if (placedShips == 3) {
+            if (placedShips == 4) {
                 isSetup = false;
                 registerCellListener((e) => {});
             }
@@ -166,7 +166,7 @@ function initGame() {
 
 function sonarCount(){
     var count = document.getElementById('sonar_Count').innerHTML;
-    if(placedShips == 3){
+    if(placedShips == 4){
         if(count==0)
             {
             alert("You have run out of Sonar Pulse");

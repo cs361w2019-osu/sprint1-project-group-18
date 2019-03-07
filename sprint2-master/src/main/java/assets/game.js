@@ -118,26 +118,51 @@ function place(size) {
         let col = this.cellIndex;
         vertical = document.getElementById("is_vertical").checked;
         let table = document.getElementById("player");
-        for (let i=0; i<size; i++) {
-            let cell;
-            if(vertical) {
-                let tableRow = table.rows[row+i];
-                if (tableRow === undefined) {
-                    // ship is over the edge; let the back end deal with it
-                    break;
-                }
-                cell = tableRow.cells[col];
-            } else {
-                cell = table.rows[row].cells[col+i];
+        if(shipType != "SUBMARINE") {
+            for (let i=0; i<size; i++) {
+                        let cell;
+                        if(vertical) {
+                            let tableRow = table.rows[row+i];
+                            if (tableRow === undefined) {
+                                // ship is over the edge; let the back end deal with it
+                                break;
+                            }
+                            cell = tableRow.cells[col];
+                        } else {
+                            cell = table.rows[row].cells[col+i];
+                        }
+                        if (cell === undefined) {
+                            // ship is over the edge; let the back end deal with it
+                            break;
+                        }
+                        cell.classList.toggle("placed");
             }
-            if (cell === undefined) {
-                // ship is over the edge; let the back end deal with it
-                break;
-            }
-            cell.classList.toggle("placed");
         }
+        else {
+            for (let i=0; i<4; i++) {
+                        let cell;
+                        if(vertical) {
+                            let tableRow = table.rows[row+i];
+                            if (tableRow === undefined) {
+                                // ship is over the edge; let the back end deal with it
+                                break;
+                            }
+                            cell = tableRow.cells[col];
+                        } else {
+                            cell = table.rows[row].cells[col+i];
+                        }
+                        if (cell === undefined) {
+                            // ship is over the edge; let the back end deal with it
+                            break;
+                        }
+                        cell.classList.toggle("placed");
+            }
+        }
+
     }
 }
+
+
 
 
 function initGame() {

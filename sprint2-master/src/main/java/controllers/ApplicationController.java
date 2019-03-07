@@ -26,9 +26,10 @@ public class ApplicationController {
         if (result) {
             return Results.json().render(game);
         } else {
-            return Results.badRequest();
+                return Results.badRequest();
         }
     }
+
 
     public Result attack(Context context, AttackGameAction g) {
         Game game = g.getGame();

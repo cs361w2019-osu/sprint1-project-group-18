@@ -84,7 +84,7 @@ function cellClick() {
             }
         });
     } else {
-        sendXhr("POST", "/attack", {game: game, x: row, y: col, sonarCheck: sonar}, function(data) {
+        sendXhr("POST", "/attack", {game: game, x: row, y: col, sonarCheck: sonar, shipsSunk: shipSunk}, function(data) {
             game = data;
             redrawGrid();
         })

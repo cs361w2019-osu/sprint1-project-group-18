@@ -14,6 +14,7 @@ public class Ship {
 	@JsonProperty private int size;
 	@JsonProperty private int CQindex;
 	@JsonProperty private boolean isArmored;
+	@JsonProperty private boolean isUnderWater = false;
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
@@ -47,6 +48,10 @@ public class Ship {
 
 	public int getSize(){
 		return size;
+	}
+
+	public boolean isUnderWater(){
+		return isUnderWater;
 	}
 
 	public void place(char col, int row, boolean isVertical) {

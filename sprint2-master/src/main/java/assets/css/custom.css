@@ -20,7 +20,6 @@
 td:hover {
     background-color: gray;
 }
-
 td.placed {
     background-color: gray;
 }
@@ -41,7 +40,6 @@ td.miss {
 td.hit {
     background-color: red;
 }
-
 td.sink {
     background-color: black;
 }

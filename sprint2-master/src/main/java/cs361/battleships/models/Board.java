@@ -23,22 +23,28 @@ public class Board {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
-		if (ships.size() >= 3) {
+		//changed from 3 to 5 for sub size?
+		if (ships.size() >= 5) {
 			return false;
 		}
 		if (ships.stream().anyMatch(s -> s.getKind().equals(ship.getKind()))) {
 			return false;
 		}
 		final var placedShip = new Ship(ship.getKind());
+		//if not submarine, don't allow ships to be placed on it.
 		if(!ship.getKind().equals("SUBMARINE")) {
 			placedShip.place(y, x, isVertical);
-		}
+			if (ships.stream().anyMatch(s -> s.overlaps(placedShip))) {
+				return false;
+			}
+		}//else if submarine, then it can be placed underneath ships.
 		else {
 			placedShip.placeSub(y,x,isVertical);
 		}
 
 		if (ships.stream().anyMatch(s -> s.overlaps(placedShip))) {
-			return false;
+			ships.add(placedShip);
+			return true;
 		}
 		if (placedShip.getOccupiedSquares().stream().anyMatch(s -> s.isOutOfBounds())) {
 			return false;

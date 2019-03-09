@@ -47,12 +47,22 @@ function redrawGrid() {
     if (game === undefined) {
         return;
     }
-
-    game.playersBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
-        document.getElementById("player").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("occupied");
-    }));
     markHits(game.opponentsBoard, "opponent", "You won the game");
     markHits(game.playersBoard, "player", "You lost the game");
+    game.playersBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
+        document.getElementById("player").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("occupied");
+        document.getElementById("player").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.remove("miss");
+        if(square.hit){
+            document.getElementById("player").rows[square.row - 1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("hit");
+        }
+    }));
+    for (i=0; i<10; i++) {
+        for (j=0; j<10; j++) {
+            if(document.getElementById("player").rows[i].cells[j].classList.contains("hit") && !document.getElementById("player").rows[i].cells[j].classList.contains("occupied")){
+                document.getElementById("player").rows[i].cells[j].classList.replace("hit", "miss");
+            }
+        }
+    }
 }
 
 var oldListener;
@@ -207,6 +217,115 @@ function sonarCount(){
             else
             {
                 alert("You must destroy a ship first!");
+            }
+        }
+    }
+    else{
+        alert("Place your ships first to start the game!");
+    }
+};
+
+function moveCount(){
+    console.log("Porque?");
+    var count = document.getElementById('move_Count').innerHTML;
+    if(placedShips == 4){
+        if(count==0){
+            alert("You have moved your fleet twice already");
+        }
+        else{
+            if(shipSunk>=2){
+                //count--;
+                //document.getElementById('move_Count').innerHTML = count;
+                //DO SHIT HERE
+                var dir;
+                var radios = document.getElementsByName('move_dir');
+                for(var i = 0, length = radios.length; i < length; i++) {
+                    if (radios[i].checked){
+                        dir = radios[i].value;
+                        break;
+                    }
+                }
+                var canplace = true;
+                if(dir.localeCompare("North") == 0){
+                    game.playersBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
+                        if(square.row == 1){canplace = false;}
+                    }));
+                    if(!canplace){
+                        alert("You cannot move ships off the map");
+                    }else{
+                        game.playersBoard.ships.forEach((ship) => {
+                            ship.occupiedSquares.forEach((square) => {
+                            document.getElementById("player").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.remove("occupied");
+                    })});
+
+                        count--;
+                        document.getElementById('move_Count').innerHTML = count;
+                        sendXhr("POST", "/move", {game: game, direction: dir}, function(data) {
+                            game = data;
+                            redrawGrid();
+                        })
+                    }
+                }
+                else if(dir.localeCompare("South") == 0){
+                    game.playersBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
+                        if(square.row == 10){canplace = false;}
+                    }));
+                    if(!canplace){
+                        alert("You cannot move ships off the map");
+                    }else{
+                        game.playersBoard.ships.forEach((ship) => {ship.occupiedSquares.forEach((square) => {
+                            document.getElementById("player").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.remove("occupied");
+                        })});
+                        count--;
+                        document.getElementById('move_Count').innerHTML = count;
+                        sendXhr("POST", "/move", {game: game, direction: dir}, function(data) {
+                            game = data;
+                            redrawGrid();
+                        })
+                    }
+                }
+                else if(dir.localeCompare("East") == 0){
+                    game.playersBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
+                        if(square.column.charAt(0) == "J".charAt(0)){canplace = false;}
+                    }));
+                    if(!canplace){
+                        alert("You cannot move ships off the map");
+                    }else{
+                        game.playersBoard.ships.forEach((ship) => {ship.occupiedSquares.forEach((square) => {
+                            document.getElementById("player").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.remove("occupied");
+                        })});
+                        count--;
+                        document.getElementById('move_Count').innerHTML = count;
+                        sendXhr("POST", "/move", {game: game, direction: dir}, function(data) {
+                            game = data;
+                            redrawGrid();
+                        })
+                    }
+                }
+                else if(dir.localeCompare("West") == 0) {
+                    game.playersBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
+                        if(square.column.charAt(0) == "A".charAt(0)){canplace = false;}
+                    }));
+                    if(!canplace){
+                        alert("You cannot move ships off the map");
+                    }
+                    else{
+                        game.playersBoard.ships.forEach((ship) => {ship.occupiedSquares.forEach((square) => {
+                            document.getElementById("player").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.remove("occupied");
+                        })});
+                        count--;
+                        document.getElementById('move_Count').innerHTML = count;
+                        sendXhr("POST", "/move", {game: game, direction: dir}, function(data) {
+                            game = data;
+                            redrawGrid();
+                        })
+
+                    }
+                }
+            }
+            else
+            {
+                alert("You must destroy two ships first!");
             }
         }
     }

@@ -14,6 +14,7 @@ public class Ship {
 	@JsonProperty private int size;
 	@JsonProperty private int CQindex;
 	@JsonProperty private boolean isArmored;
+	@JsonProperty private boolean sunk;
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
@@ -22,6 +23,7 @@ public class Ship {
 	public Ship(String kind) {
 		this();
 		this.kind = kind;
+		sunk = false;
 		switch(kind) {
 			case "MINESWEEPER":
 				size = 2;
@@ -158,9 +160,24 @@ public class Ship {
 		return resultList;
 	}
 
+	public void moveShip(String direction){
+			if (direction.equals("North")) {
+				occupiedSquares.stream().forEach((square) -> square.moveUp());
+			} else if (direction.equals("South")) {
+				occupiedSquares.stream().forEach((square) -> square.moveDown());
+			} else if (direction.equals("East")) {
+				occupiedSquares.stream().forEach((square) -> square.moveRight());
+			} else if (direction.equals("West")) {
+                occupiedSquares.stream().forEach((square) -> square.moveLeft());
+            }
+	}
+
 	@JsonIgnore
 	public boolean isSunk() {
-		return getOccupiedSquares().stream().allMatch(s -> s.isHit());
+		if(getOccupiedSquares().stream().allMatch(s -> s.isHit())){
+			sunk = true;
+		}
+		return sunk;
 	}
 
 	@Override

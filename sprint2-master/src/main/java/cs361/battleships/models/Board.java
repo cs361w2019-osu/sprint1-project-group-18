@@ -122,6 +122,10 @@ public class Board {
 		}
 	}
 
+	public void moveFleet(String direction){
+		ships.stream().forEach((ship) -> ship.moveShip(direction));
+	}
+
 	List<Ship> getShips() {
 		return ships;
 	}

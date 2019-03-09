@@ -125,6 +125,10 @@ public class Board {
 		}
 	}
 
+	public void moveFleet(String direction){
+		ships.stream().forEach((ship) -> ship.moveShip(direction));
+}
+  
     public Result attack_under(int x, char y) {
         List<Result> attackResult;
         var attackSquare = new Square(x, y);

@@ -35,6 +35,23 @@ public class Square {
 
 	public void setCaptainsQuarters(boolean choice) { isCaptainsQuarters = choice; }
 
+	public void moveUp(){
+		int cur = this.row;
+		this.row = cur - 1;
+	}
+
+	public void moveDown(){
+		int cur = this.row;
+		this.row = cur + 1;
+	}
+
+	public void moveLeft(){
+		this.column -= 1;
+	}
+
+	public void moveRight(){
+		this.column += 1;
+	}
 
 	@Override
 	public boolean equals(Object other) {

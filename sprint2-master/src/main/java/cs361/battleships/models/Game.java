@@ -31,6 +31,11 @@ public class Game {
         return true;
     }
 
+    public boolean moveFleet(String direction){
+        playersBoard.moveFleet(direction);
+        return true;
+    }
+
     /*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */

@@ -76,19 +76,22 @@ public class Board {
 
 	private List<Result> attack(Square s) {
 		var attackList = new ArrayList<Result>();
-		if (attacks.stream().anyMatch(r -> r.getLocation().equals(s) && r.getResult() == AtackStatus.MISS)) {
-			var attackResult = new Result(s);
-			attackResult.setResult(AtackStatus.INVALID);
-			attackList.add(attackResult);
-			return attackList;
-		}
 		var shipsAtLocation = ships.stream().filter(ship -> ship.isAtLocation(s)).collect(Collectors.toList());
 		if (shipsAtLocation.size() == 0) {
 			var attackResult = new Result(s);
 			attackList.add(attackResult);
 			return attackList;
 		}
-		var hitShip = shipsAtLocation.get(0);
+		var validShips = shipsAtLocation.stream().filter(ship -> !ship.isUnderWater()).collect(Collectors.toList());
+		Ship hitShip;
+		if(validShips.size() > 0){
+			hitShip = validShips.get(0);
+		}
+		else{
+			var attackResult = new Result(s);
+			attackList.add(attackResult);
+			return attackList;
+		}
 		var attackResult = hitShip.attack(s.getRow(), s.getColumn());
 		if(hitShip.getOccupiedSquares().get(hitShip.getSize() - 2).equals(attackResult.get(0).getLocation()) && attackResult.size() == 1){
 			attackResult.get(0).getLocation().setCaptainsQuarters(true);
@@ -121,6 +124,54 @@ public class Board {
 			return attackResult;
 		}
 	}
+
+    public Result attack_under(int x, char y) {
+        List<Result> attackResult;
+        var attackSquare = new Square(x, y);
+        if (attacks.stream().anyMatch(r -> (r.getLocation().equals(attackSquare) && r.getLocation().getCaptainsQuarters()))){
+            if((attacks.stream().filter(r -> r.getLocation().equals(attackSquare))).count() == 1) {
+                attackSquare.setCaptainsQuarters(true);
+                attackResult = attack_under(attackSquare);
+            }
+            else
+                attackResult = attack_under(attackSquare);
+        }
+        else {
+            attackResult = attack_under(attackSquare);
+        }
+        attackResult.forEach((elem) -> attacks.add(elem));
+        return attacks.get(attacks.size() - 1);
+    }
+
+    private List<Result> attack_under(Square s) {
+        var attackList = new ArrayList<Result>();
+        var shipsAtLocation = ships.stream().filter(ship -> ship.isAtLocation(s)).collect(Collectors.toList());
+        if (shipsAtLocation.size() == 0) {
+            var attackResult = new Result(s);
+            attackList.add(attackResult);
+            return attackList;
+        }
+        var validShips = shipsAtLocation.stream().filter(ship -> ship.isUnderWater()).collect(Collectors.toList());
+        Ship hitShip;
+        if(validShips.size() > 0){
+            hitShip = validShips.get(0);
+        }
+        else{
+            var attackResult = new Result(s);
+            attackList.add(attackResult);
+            return attackList;
+        }
+        var attackResult = hitShip.attack(s.getRow(), s.getColumn());
+        if(hitShip.getOccupiedSquares().get(hitShip.getSize() - 2).equals(attackResult.get(0).getLocation()) && attackResult.size() == 1){
+            attackResult.get(0).getLocation().setCaptainsQuarters(true);
+        }
+        if (attackResult.get(attackResult.size() - 1).getResult() == AtackStatus.SUNK) {
+            if (ships.stream().allMatch(ship -> ship.isSunk())) {
+                attackResult.get(attackResult.size() - 1).setResult(AtackStatus.SURRENDER);
+            }
+        }
+        return attackResult;
+    }
 
 	List<Ship> getShips() {
 		return ships;

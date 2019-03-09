@@ -14,6 +14,7 @@ public class Ship {
 	@JsonProperty private int size;
 	@JsonProperty private int CQindex;
 	@JsonProperty private boolean isArmored;
+	@JsonProperty private boolean isUnderWater;
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
@@ -27,21 +28,25 @@ public class Ship {
 				size = 2;
 				CQindex = 0;
 				isArmored = false;
+				isUnderWater = false;
 				break;
 			case "DESTROYER":
 				size = 3;
 				CQindex = 1;
 				isArmored = true;
+				isUnderWater = false;
 				break;
 			case "BATTLESHIP":
 				size = 4;
 				CQindex = 2;
 				isArmored = true;
+				isUnderWater = false;
 				break;
 			case "SUBMARINE":
 				size = 5;
 				CQindex = 4;
 				isArmored = true;
+				isUnderWater = true;
 				break;
 		}
 	}
@@ -162,6 +167,9 @@ public class Ship {
 	public boolean isSunk() {
 		return getOccupiedSquares().stream().allMatch(s -> s.isHit());
 	}
+
+	@JsonIgnore
+	public boolean isUnderWater(){return isUnderWater;}
 
 	@Override
 	public boolean equals(Object other) {

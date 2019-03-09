@@ -28,7 +28,7 @@ function markHits(board, elementId, surrenderText) {
         else if (attack.result === "SUNK"){
             shipSunk++;
             className = "hit"
-            }
+        }
         else if (attack.result === "SURRENDER")
             alert(surrenderText);
         else if (attack.result === "SCANNED")
@@ -94,7 +94,7 @@ function cellClick() {
             }
         });
     } else {
-        sendXhr("POST", "/attack", {game: game, x: row, y: col, sonarCheck: sonar}, function(data) {
+        sendXhr("POST", "/attack", {game: game, x: row, y: col, sonarCheck: sonar, sunk: shipSunk}, function(data) {
             game = data;
             redrawGrid();
         })
@@ -208,7 +208,7 @@ function sonarCount(){
             }
         else
             {
-            if(shipSunk>=1){
+            if(shipSunk >= 1){
 
                 count--;
                 sonar = true;

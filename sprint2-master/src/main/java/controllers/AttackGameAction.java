@@ -9,6 +9,7 @@ public class AttackGameAction {
     @JsonProperty private int x;
     @JsonProperty private char y;
     @JsonProperty private boolean sonarCheck;
+    @JsonProperty private int sunk;
 
     public Game getGame() {
         return game;
@@ -23,4 +24,6 @@ public class AttackGameAction {
     }
 
     public boolean getSonar() { return sonarCheck; }
+
+    public int getSunk() {return sunk;}
 }

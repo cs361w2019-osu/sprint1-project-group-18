@@ -39,51 +39,18 @@ public class Game {
     /*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
-    public boolean attack(int x, char y, boolean sonar) {
+    public boolean attack(int x, char y, boolean sonar, int sunk) {
         Result playerAttack;
         if (sonar) {
-            playerAttack = opponentsBoard.scan(x, y);
-
-            Result otherAttack;
-            if (y > 'B') {
-                otherAttack = opponentsBoard.scan(x, (char) (y - 2));
-            }
-            if (y > 'A') {
-                if (x > 1) {
-                    otherAttack = opponentsBoard.scan(x - 1, (char) (y - 1));
-                }
-                otherAttack = opponentsBoard.scan(x, (char) (y - 1));
-                if (x < 10) {
-                    otherAttack = opponentsBoard.scan(x + 1, (char) (y - 1));
-                }
-            }
-            if (x > 2) {
-                otherAttack = opponentsBoard.scan(x - 2, y);
-            }
-            if (x > 1) {
-                otherAttack = opponentsBoard.scan(x - 1, y);
-            }
-            if (x < 10) {
-                otherAttack = opponentsBoard.scan(x + 1, y);
-            }
-            if (x < 9) {
-                otherAttack = opponentsBoard.scan(x + 2, y);
-            }
-
-            if (y < 'J') {
-                if (x > 1) {
-                    otherAttack = opponentsBoard.scan(x - 1, (char) (y + 1));
-                }
-                otherAttack = opponentsBoard.scan(x, (char) (y + 1));
-                if (x < 10) {
-                    otherAttack = opponentsBoard.scan(x + 1, (char) (y + 1));
-                }
-            }
-            if (y < 'I') {
-                otherAttack = opponentsBoard.scan(x, (char) (y + 2));
-            }
+            System.out.println("sonar");
+            playerAttack = Weapon.Sonar.Attack(opponentsBoard, x, y);
+        }
+        else if(sunk > 1){
+            System.out.println("sunk");
+            playerAttack = Weapon.Laser.Attack(opponentsBoard, x, y);
         }
         else{
+            System.out.println("attack");
             playerAttack = opponentsBoard.attack(x, y);
         }
         if (playerAttack.getResult() == INVALID) {
